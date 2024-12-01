@@ -16,22 +16,28 @@ namespace Assignment4_1_1
     /// </summary>
     public partial class MainWindow : Window
     {
+        // Dictionary to store person objects, with full name as the key
         Dictionary<string, Person> persons;
         public MainWindow()
         {
             InitializeComponent();
+            //Initialize persons dict weith mock data
             persons = MockData.CreateData();
+            //Set itemSource of contactData Datagrid to display all persons
             ContactData.ItemsSource = persons.Values;
         }
 
 
         private void btnSearch_Click(object sender, RoutedEventArgs e)
         {
-            //TryGet returns boolean and then out = output of value
+            // Trim the search text to remove leading and trailing whitespace
             string searchText = txtSearch.Text.Trim();
+            // Search for persons whose full name contains the search text (case-insensitive)
             var searchResults = persons.Values.Where(p =>
                 p.FullName.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0).ToList();
 
+            //Check if any results found & if found display in the dataGridResults
+            //Else msg below it
             if (searchResults.Any())
             {
                 dataGridResult.ItemsSource = searchResults;
